@@ -465,3 +465,33 @@ leftMax >= rightMax
 Process the **right side**.
 
 That is the main trick behind the optimal solution.
+
+
+
+
+
+
+
+
+
+
+Example :
+
+height = [0,1,0,2,1,0,1,3,2,1,2,1]
+
+
+
+| Step | left | rig | height[left] | height[rig] | leftmax | rigmax | Action  | water |
+| ---: | ---: | --: | -----------: | ----------: | ------: | -----: | ------- | ----: |
+|    1 |    0 |  11 |            0 |           1 |       0 |      1 | left →  |     0 |
+|    2 |    1 |  11 |            1 |           1 |       1 |      1 | right → |     0 |
+|    3 |    1 |  10 |            1 |           2 |       1 |      2 | left →  |     0 |
+|    4 |    2 |  10 |            0 |           2 |       1 |      2 | left →  |     1 |
+|    5 |    3 |  10 |            2 |           2 |       2 |      2 | right → |     1 |
+|    6 |    3 |   9 |            2 |           1 |       2 |      2 | right → |     2 |
+|    7 |    3 |   8 |            2 |           2 |       2 |      2 | right → |     2 |
+|    8 |    3 |   7 |            2 |           3 |       2 |      3 | left →  |     2 |
+|    9 |    4 |   7 |            1 |           3 |       2 |      3 | left →  |     3 |
+|   10 |    5 |   7 |            0 |           3 |       2 |      3 | left →  |     5 |
+|   11 |    6 |   7 |            1 |           3 |       2 |      3 | left →  |     6 |
+
