@@ -1,4 +1,4 @@
-# LeetCode 141 — Linked List Cycle
+# LeetCode 141 — Linked List Cycle.
 
 ## Problem
 
