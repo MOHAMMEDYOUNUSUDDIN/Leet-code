@@ -660,4 +660,4 @@ space.
 
 ## Pattern to Remember
 
-> **Repeated transformation + possible cycle = Think about Cycle Detection.**
+> Repeated transformation + possible cycle = Think about Cycle Detection.
