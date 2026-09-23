@@ -1517,4 +1517,4 @@ LONGEST / MINIMUM / K / DISTINCT
 "When do I update my answer?"
 ```
 
-Once you can answer those four questions, you can solve most Sliding Window problems.
+Once you can answer those four questions, you can solve most Sliding Window Problems.
