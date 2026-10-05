@@ -637,4 +637,4 @@ And initialize:
 prefixSum.put(0, 1);
 ```
 
-This single initialization allows the algorithm to automatically handle subarrays whose sum itself is divisible by `k`.
+This Single initialization allows the algorithm to automatically handle subarrays whose sum itself is divisible by `k`.
