@@ -57,7 +57,7 @@ You can check out my LeetCode profile here:
 
 ## ⭐ Repository
 
-[Leet-codeDAILY — GitHub Repository](https://github.com/MOHAMMEDYOUNUSUDDIN/Leet-codeDAILY?utm_source=chatgpt.com)
+[Leet-codeDAILY — GitHub Repository](https://github.com/MOHAMMEDYOUNUSUDDIN/Leet-code)
 
 ## 🔥 Goal
 
