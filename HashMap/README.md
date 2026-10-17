@@ -1,182 +1,222 @@
-HashMap — Pattern Recognition & Complete Guide (Java)
+HashMap in Java — Complete Notes for DSA
 
 1. What Is a HashMap?
 
-A "HashMap" stores data as key-value pairs.
+A "HashMap" is a data structure in Java that stores data in key-value pairs.
 
-Think of it like a phone contacts app:
+Each key is unique, but multiple keys can have the same value.
 
-Key| Value
-Rahul| 9876543210
-Priya| 9876543211
-Aman| 9876543212
+Real-world example: A student database stores a roll number as the key and the student's name as the value.
 
-When you search for Rahul, you can retrieve his number quickly without checking every contact one by one.
+Key (Roll No.)| Value (Name)
+101| Rahul
+102| Priya
+103| Aman
 
-In Java, we use "HashMap<K, V>".
+Instead of searching every record, we can look up a student using their key.
+
+2. Why Do We Use HashMap?
+
+- Fast searching and retrieval.
+- Counting the frequency of elements.
+- Detecting duplicates.
+- Finding pairs that satisfy a condition.
+- Storing relationships between elements.
+- Grouping similar elements.
+- Remembering previously processed information.
+
+3. How Does HashMap Work Internally?
+
+HashMap uses a process called hashing.
+
+1. You provide a key.
+2. Java calls the key's "hashCode()" method.
+3. The hash is used to determine a bucket location.
+4. Java stores or retrieves the key-value entry from that bucket.
+5. If multiple keys map to the same bucket, Java handles the collision using equality checks and internal bucket structures.
+
+Important terms
+
+- Hashing: Converting a key into a hash value.
+- Bucket: A location in the internal table.
+- Collision: Different keys map to the same bucket.
+- "hashCode()": Produces a hash value for an object.
+- "equals()": Checks whether two keys are equal.
+
+A collision does not mean two keys are equal.
+
+4. How to Create a HashMap
 
 import java.util.HashMap;
 
-HashMap<String, Integer> map = new HashMap<>();
+HashMap<Integer, String> map = new HashMap<>();
 
-map.put("Rahul", 90);
-map.put("Priya", 85);
+map.put(101, "Rahul");
+map.put(102, "Priya");
+map.put(103, "Aman");
 
-System.out.println(map.get("Rahul")); // 90
-System.out.println(map.containsKey("Aman")); // false
+System.out.println(map);
 
-Important methods
+Syntax:
 
-Method| Purpose
-"put(key, value)"| Insert or update a value
-"get(key)"| Retrieve the value
-"getOrDefault(key, defaultValue)"| Retrieve a value or a default
-"containsKey(key)"| Check whether a key exists
-"remove(key)"| Remove a key-value pair
-"size()"| Number of key-value pairs
-"keySet()"| Get all keys
+HashMap<KeyType, ValueType> map = new HashMap<>();
 
-Most basic HashMap operations take O(1) average time.
+Examples:
 
----
+HashMap<Integer, Integer> map1 = new HashMap<>();
+HashMap<Character, Integer> map2 = new HashMap<>();
+HashMap<String, Integer> map3 = new HashMap<>();
+HashMap<String, String> map4 = new HashMap<>();
 
-2. The Most Important Question: How Do I Know HashMap Will Work?
+5. Important HashMap Methods
 
-Before writing code, ask yourself these questions.
+Method| Purpose| Example
+"put(key, value)"| Insert or update| "map.put(1, 10)"
+"get(key)"| Retrieve a value| "map.get(1)"
+"getOrDefault(key, default)"| Get value or fallback| "map.getOrDefault(2, 0)"
+"containsKey(key)"| Check whether key exists| "map.containsKey(1)"
+"containsValue(value)"| Check whether value exists| "map.containsValue(10)"
+"remove(key)"| Delete an entry| "map.remove(1)"
+"size()"| Number of entries| "map.size()"
+"isEmpty()"| Check whether empty| "map.isEmpty()"
+"keySet()"| Get all keys| "map.keySet()"
+"values()"| Get all values| "map.values()"
+"entrySet()"| Get key-value entries| "map.entrySet()"
+"clear()"| Remove all entries| "map.clear()"
+"putIfAbsent(key, value)"| Insert only if key is absent| "map.putIfAbsent(1, 10)"
 
-1. Am I repeatedly searching for an element?
-2. Do I need to count the frequency of elements?
-3. Do I need to remember previously seen elements?
-4. Do I need to find a complement, such as "target - current"?
-5. Do I need to map one value to another?
-6. Do I need to group elements that share the same property?
+Important behavior
 
-If the answer to any of these is yes, consider a HashMap or HashSet.
+map.put(1, 10);
+map.put(1, 20);
 
-The main idea
+System.out.println(map.get(1)); // 20
 
-HashMap helps when remembering information allows you to avoid repeated searching.
+A key cannot have multiple separate entries. Inserting the same key updates its value.
 
-Example:
+6. How to Traverse a HashMap
 
-Given "nums = [2, 7, 11, 15]", find two numbers whose sum equals "9".
+Method 1: Using "keySet()"
 
-The brute-force approach checks every pair. Instead, while visiting each number, remember previous numbers and check whether its required complement exists.
+for (Integer key : map.keySet()) {
+    System.out.println(key + " -> " + map.get(key));
+}
 
-For "2", the complement is "9 - 2 = 7". It is not stored yet, so remember "2".
+Method 2: Using "entrySet()" — recommended for key-value traversal
 
-For "7", the complement is "9 - 7 = 2". We already stored "2", so we found the answer.
+for (var entry : map.entrySet()) {
+    System.out.println(
+        entry.getKey() + " -> " + entry.getValue()
+    );
+}
 
-That is the core idea behind many HashMap problems.
+Method 3: Using "forEach()"
 
----
+map.forEach((key, value) ->
+    System.out.println(key + " -> " + value)
+);
 
-3. Pattern 1: Frequency Counting
+Remember: "HashMap" does not guarantee iteration order.
 
-When should you recognize this pattern?
+7. Frequency Counting Pattern
 
-Look for phrases such as:
+Frequency counting is one of the most important HashMap applications in DSA.
 
-- Count how many times each element appears.
-- Find the first unique character.
-- Check whether two strings are anagrams.
-- Find the most frequent element.
-- Determine whether every element occurs equally often.
+Example
 
-Example: Count each character
+Input:
 
-Input: "banana"
+nums = [1, 2, 2, 3, 1, 2]
 
-Expected frequencies:
+Output frequencies:
 
-Character| Frequency
-b| 1
-a| 3
-n| 2
+1 -> 2
+2 -> 3
+3 -> 1
 
 Java code
 
 import java.util.HashMap;
 
-class Solution {
+class Main {
     public static void main(String[] args) {
-        String s = "banana";
+        int[] nums = {1, 2, 2, 3, 1, 2};
 
-        HashMap<Character, Integer> map = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
 
-        for (char ch : s.toCharArray()) {
-            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
 
         System.out.println(map);
     }
 }
 
-How to think
+How "getOrDefault()" works
 
-For every character:
+map.getOrDefault(num, 0)
 
-1. Check its existing count.
-2. If it is absent, use "0".
-3. Add "1".
-4. Store the updated count.
-
-The key is the character, and the value is its frequency.
+- If the key exists, return its current value.
+- If the key does not exist, return "0".
+- Add "1" and store the updated count.
 
 Dry run
 
-Character| Previous count| New count| Map after processing
-b| 0| 1| "{b=1}"
-a| 0| 1| "{b=1, a=1}"
-n| 0| 1| "{b=1, a=1, n=1}"
-a| 1| 2| "{b=1, a=2, n=1}"
-n| 1| 2| "{b=1, a=2, n=2}"
-a| 2| 3| "{b=1, a=3, n=2}"
+Number| Previous frequency| New frequency
+1| 0| 1
+2| 0| 1
+2| 1| 2
+3| 0| 1
+1| 1| 2
+2| 2| 3
 
-Complexity
+8. HashMap vs HashSet
 
-- Time: O(n)
-- Space: O(k), where "k" is the number of distinct characters.
+HashMap| HashSet
+Stores key-value pairs| Stores unique elements
+Use when information must be associated with a key| Use when only membership matters
+Example: number → frequency| Example: numbers already seen
+"map.put(key, value)"| "set.add(value)"
 
-Related problems
+Example: To count duplicate occurrences, a HashMap is useful. To check whether any duplicate exists, a HashSet may be enough.
 
-- "387. First Unique Character in a String" (https://leetcode.com/problems/first-unique-character-in-a-string/)
-- "242. Valid Anagram" (https://leetcode.com/problems/valid-anagram/)
-- "169. Majority Element" (https://leetcode.com/problems/majority-element/)
-- "1189. Maximum Number of Balloons" (https://leetcode.com/problems/maximum-number-of-balloons/)
+9. When Should You Use HashMap in DSA?
 
----
+Recognize these common problem patterns:
 
-4. Pattern 2: HashMap for Fast Lookup — Two Sum
+Problem clue| Possible pattern
+Count occurrences| Frequency map
+Find first unique character| Frequency map + second traversal
+Find two numbers with a target sum| Complement lookup
+Detect repeated elements| HashSet or HashMap
+Check whether two strings are anagrams| Character frequencies
+Map one character to another| Key-value mapping
+Group anagrams| Signature → list
+Count subarrays with a target sum| Prefix Sum + HashMap
+Find the top K frequent elements| Frequency map + heap or bucket sort
+Remember previously seen values| Lookup map or set
 
-How to recognize it
+The key question is:
 
-The problem asks you to find:
+Can I avoid repeated searching by remembering information I've already processed?
 
-- Two elements that satisfy a target.
-- A pair with a specific sum.
-- A complement or matching value.
-- A previously seen element that satisfies a condition.
+If yes, consider a HashMap or HashSet.
 
-Example
+10. HashMap and the Two Sum Pattern
+
+Problem: Find two indices whose values add up to a target.
+
+Example:
 
 nums = [2, 7, 11, 15]
 target = 9
 Output = [0, 1]
 
-How to think
+For each number, calculate:
 
-Suppose the current number is "x".
+complement = target - currentNumber
 
-The number needed to reach the target is:
-
-"complement = target - x"
-
-Instead of searching the entire array for the complement, check whether it already exists in the HashMap.
-
-Store each previously seen number as the key and its index as the value.
-
-Java code
+Check whether the complement is already stored.
 
 import java.util.HashMap;
 
@@ -198,447 +238,81 @@ class Solution {
     }
 }
 
-Dry run
+Here, the key is the number and the value is its index.
 
-Input: "nums = [2, 7, 11, 15]", "target = 9"
+11. Time and Space Complexity
 
-Index| Current number| Complement| Map before lookup| Action
-0| 2| 7| "{}"| 7 absent; store "2 → 0"
-1| 7| 2| "{2=0}"| 2 exists; return "[0, 1]"
+Operation| Average time complexity
+"put()"| O(1)
+"get()"| O(1)
+"containsKey()"| O(1)
+"remove()"| O(1)
+"size()"| O(1)
+Traverse all entries| O(n)
 
-Why check before inserting?
+These are average-case expectations. Performance can differ with collisions and other implementation details.
 
-For "nums = [3, 3]" and "target = 6", the first "3" is stored. The second "3" finds the first one.
+Space complexity
 
-Checking before inserting ensures that we use two different indices.
+If the map stores "n" distinct entries, its space usage is generally O(n).
 
-Complexity
+12. Important Properties and Limitations
 
-- Time: O(n) average
-- Space: O(n)
+- Keys are unique.
+- Values may be duplicated.
+- One key maps to at most one value at a time.
+- "HashMap" permits one "null" key and multiple "null" values.
+- It is not synchronized for concurrent modification by multiple threads.
+- It does not preserve insertion order.
+- Mutable objects used as keys can cause lookup problems if changes affect their "hashCode()" or equality.
+- Equal keys must have equal hash codes.
 
-Problem: "1. Two Sum" (https://leetcode.com/problems/two-sum/)
+13. HashMap vs Other Map Implementations
 
----
+Feature| HashMap| LinkedHashMap| TreeMap
+Ordering| No guaranteed order| Maintains insertion order by default| Sorted by key
+Typical lookup| O(1) average| O(1) average| O(log n)
+Main use| Fast general lookup| Predictable insertion order| Sorted keys
 
-5. Pattern 3: Detect Duplicates
+14. Common Mistakes
 
-How to recognize it
+1. Using "map.get(key)" without handling a missing key.
+2. Confusing keys with values.
+3. Assuming HashMap keeps insertion order.
+4. Using a HashMap when a HashSet would be simpler.
+5. Forgetting to update a frequency after processing an element.
+6. Assuming different keys cannot have the same hash code.
+7. Forgetting that inserting an existing key replaces its previous value.
+8. Choosing the wrong value type: index, count, character, or list.
 
-The question asks whether:
-
-- Any element appears more than once.
-- An element has appeared before.
-- Two values are equal.
-- A duplicate exists within a certain condition.
-
-If you only need to know whether a value exists, a "HashSet" is often enough. If you also need its index or frequency, use a "HashMap".
-
-Java code
-
-import java.util.HashSet;
-
-class Solution {
-    public boolean containsDuplicate(int[] nums) {
-        HashSet<Integer> set = new HashSet<>();
-
-        for (int num : nums) {
-            if (set.contains(num)) {
-                return true;
-            }
-
-            set.add(num);
-        }
-
-        return false;
-    }
-}
-
-How to think
-
-A set remembers which elements have appeared. If the current element is already in the set, a duplicate exists.
-
-Complexity
-
-- Time: O(n) average
-- Space: O(n)
-
-Problems:
-
-- "217. Contains Duplicate" (https://leetcode.com/problems/contains-duplicate/)
-- "219. Contains Duplicate II" (https://leetcode.com/problems/contains-duplicate-ii/)
-
----
-
-6. Pattern 4: HashMap for String Mapping
-
-How to recognize it
-
-Look for questions about:
-
-- Whether two strings follow the same pattern.
-- Whether characters map consistently.
-- Isomorphic strings.
-- Repeated character relationships.
-
-Example: Isomorphic Strings
-
-s = "egg"
-t = "add"
-Output = true
-
-The mapping is:
-
-- "e → a"
-- "g → d"
-
-Each character in one string must consistently map to the same character in the other string. Two different characters must not map to the same character when a one-to-one mapping is required.
-
-Java code
-
-import java.util.HashMap;
-
-class Solution {
-    public boolean isIsomorphic(String s, String t) {
-        if (s.length() != t.length()) {
-            return false;
-        }
-
-        HashMap<Character, Character> mapST = new HashMap<>();
-        HashMap<Character, Character> mapTS = new HashMap<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            char a = s.charAt(i);
-            char b = t.charAt(i);
-
-            if (mapST.containsKey(a) && mapST.get(a) != b) {
-                return false;
-            }
-
-            if (mapTS.containsKey(b) && mapTS.get(b) != a) {
-                return false;
-            }
-
-            mapST.put(a, b);
-            mapTS.put(b, a);
-        }
-
-        return true;
-    }
-}
-
-Why use two maps?
-
-One map checks "s → t"; the other checks "t → s".
-
-Without checking both directions, two different characters might incorrectly map to the same character.
-
-Complexity
-
-- Time: O(n)
-- Space: O(k), where "k" is the number of distinct characters.
-
-Problem: "205. Isomorphic Strings" (https://leetcode.com/problems/isomorphic-strings/)
-
----
-
-7. Pattern 5: Grouping Elements Using a HashMap
-
-How to recognize it
-
-The problem asks you to group:
-
-- Anagrams together.
-- Values with the same property.
-- Elements that share a common key.
-- Words that can be represented by the same signature.
-
-Example: Group Anagrams
-
-Input = ["eat", "tea", "tan", "ate", "nat", "bat"]
-
-The words "eat", "tea", and "ate" contain the same characters, so they belong to the same group.
-
-How to think
-
-1. Convert each word into a common signature.
-2. Use that signature as the HashMap key.
-3. Store all words with that key in the same list.
-4. Return the grouped lists.
-
-One possible signature is the sorted version of each word.
-
-For example:
-
-eat → aet
-tea → aet
-ate → aet
-
-Java code
-
-import java.util.*;
-
-class Solution {
-    public List<List<String>> groupAnagrams(String[] strs) {
-        HashMap<String, List<String>> map = new HashMap<>();
-
-        for (String word : strs) {
-            char[] chars = word.toCharArray();
-            Arrays.sort(chars);
-
-            String key = new String(chars);
-
-            map.computeIfAbsent(key, k -> new ArrayList<>())
-               .add(word);
-        }
-
-        return new ArrayList<>(map.values());
-    }
-}
-
-Complexity
-
-If there are "n" words and each word has at most "k" characters:
-
-- Time: O(n × k log k)
-- Space: O(n × k), including stored words.
-
-Problem: "49. Group Anagrams" (https://leetcode.com/problems/group-anagrams/)
-
----
-
-8. Pattern 6: Prefix Sum + HashMap
-
-This is an important combination. A HashMap can remember previous prefix sums so that we do not need to check every possible subarray.
-
-How to recognize it
-
-Look for:
-
-- Count the number of subarrays whose sum equals "k".
-- Find a subarray with a target sum.
-- Count ranges satisfying a sum condition.
-- Array values may be negative, so ordinary sliding-window sum logic is not reliable.
-
-Example: Subarray Sum Equals K
-
-nums = [1, 1, 1]
-k = 2
-Output = 2
-
-The two valid subarrays are:
-
-[1, 1] at indices 0–1
-[1, 1] at indices 1–2
-
-The key formula
-
-Let "prefixSum" be the sum from the beginning up to the current index.
-
-If an earlier prefix sum was:
-
-"previousPrefix = prefixSum - k"
-
-then the elements between that earlier position and the current position sum to "k".
-
-Therefore, remember prefix sums and how often each has appeared.
-
-Java code
-
-import java.util.HashMap;
-
-class Solution {
-    public int subarraySum(int[] nums, int k) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-
-        map.put(0, 1);
-
-        int prefixSum = 0;
-        int count = 0;
-
-        for (int num : nums) {
-            prefixSum += num;
-
-            int needed = prefixSum - k;
-            count += map.getOrDefault(needed, 0);
-
-            map.put(
-                prefixSum,
-                map.getOrDefault(prefixSum, 0) + 1
-            );
-        }
-
-        return count;
-    }
-}
-
-Dry run
-
-Input: "nums = [1, 1, 1]", "k = 2"
-
-Initially, "map = {0=1}" and "count = 0".
-
-Number| Prefix sum| Needed ("prefixSum - k")| Previous occurrences| Count| Map update
-1| 1| -1| 0| 0| Store "1 → 1"
-1| 2| 0| 1| 1| Store "2 → 1"
-1| 3| 1| 1| 2| Store "3 → 1"
-
-Answer: "2"
-
-Why initialize "map.put(0, 1)"?
-
-It handles subarrays that begin at index "0". If the current prefix sum itself equals "k", then "prefixSum - k = 0", and the initial entry counts that subarray.
-
-Complexity
-
-- Time: O(n) average
-- Space: O(n)
-
-Problem: "560. Subarray Sum Equals K" (https://leetcode.com/problems/subarray-sum-equals-k/)
-
----
-
-9. Pattern 7: Longest Consecutive Sequence
-
-How to recognize it
-
-The problem asks for the longest consecutive sequence, but the input array is unsorted.
-
-Sorting is one solution, but it takes O(n log n). A HashSet lets us check whether neighboring values exist in expected O(1) time.
-
-How to think
-
-For each number "num", start counting only if "num - 1" does not exist. This means "num" is the beginning of a consecutive sequence.
-
-Then check "num + 1", "num + 2", and so on.
-
-Java code
-
-import java.util.HashSet;
-
-class Solution {
-    public int longestConsecutive(int[] nums) {
-        HashSet<Integer> set = new HashSet<>();
-
-        for (int num : nums) {
-            set.add(num);
-        }
-
-        int longest = 0;
-
-        for (int num : set) {
-            if (!set.contains(num - 1)) {
-                int current = num;
-                int length = 1;
-
-                while (set.contains(current + 1)) {
-                    current++;
-                    length++;
-                }
-
-                longest = Math.max(longest, length);
-            }
-        }
-
-        return longest;
-    }
-}
-
-Example
-
-Input = [100, 4, 200, 1, 3, 2]
-Sequence = 1, 2, 3, 4
-Output = 4
-
-Complexity
-
-- Time: O(n) average
-- Space: O(n)
-
-Problem: "128. Longest Consecutive Sequence" (https://leetcode.com/problems/longest-consecutive-sequence/)
-
----
-
-10. How to Choose the Correct HashMap Pattern
-
-Problem requirement| Pattern to consider| What the map stores
-Count occurrences| Frequency counting| Element → frequency
-Find a pair for a target| Complement lookup| Number → index
-Detect repeated values| HashSet or HashMap| Seen element or element → count
-Check character relationships| Mapping| Character → character
-Group similar items| Grouping| Signature → list of items
-Count target-sum subarrays| Prefix Sum + HashMap| Prefix sum → frequency
-Find a longest consecutive sequence| HashSet| Existing values
-
-HashMap vs HashSet vs Sliding Window
-
-Tool| Best use
-HashMap| Store a key and associated information
-HashSet| Check whether a value exists
-Sliding Window| Maintain a contiguous range while moving pointers
-Prefix Sum + HashMap| Count or find subarrays using previous prefix sums
-
-These techniques can work together. For example, Longest Substring Without Repeating Characters uses a sliding window and a set or map to track characters.
-
----
-
-11. Common Mistakes
-
-1. Forgetting "getOrDefault": A missing key may return "null". For frequency counting, use "map.getOrDefault(key, 0)".
-2. Using the wrong value: Store an index when the question asks for indices, a frequency when it asks for counts, or a list when it asks for groups.
-3. Inserting too early in Two Sum: Check for the complement before inserting the current element.
-4. Using only one map for a one-to-one mapping: For isomorphic strings, check both directions.
-5. Forgetting the initial prefix sum: For subarray-sum counting, initialize "map.put(0, 1)".
-6. Assuming iteration order: "HashMap" does not guarantee a particular iteration order.
-7. Assuming every HashMap problem needs a HashMap: Sometimes a "HashSet", sorting, or a two-pointer solution is simpler.
-8. Ignoring negative values: A standard sliding window for sum conditions may fail when negative numbers are allowed; consider Prefix Sum + HashMap.
-
----
-
-12. Practice Problems
+15. Practice Problems
 
 Beginner
 
 1. "1. Two Sum" (https://leetcode.com/problems/two-sum/)
 2. "217. Contains Duplicate" (https://leetcode.com/problems/contains-duplicate/)
 3. "242. Valid Anagram" (https://leetcode.com/problems/valid-anagram/)
-4. "387. First Unique Character in a String" (https://leetcode.com/problems/first-unique-character-in-a-string/)
-5. "383. Ransom Note" (https://leetcode.com/problems/ransom-note/)
+4. "383. Ransom Note" (https://leetcode.com/problems/ransom-note/)
+5. "387. First Unique Character in a String" (https://leetcode.com/problems/first-unique-character-in-a-string/)
 
 Intermediate
 
-6. "205. Isomorphic Strings" (https://leetcode.com/problems/isomorphic-strings/)
-7. "49. Group Anagrams" (https://leetcode.com/problems/group-anagrams/)
-8. "560. Subarray Sum Equals K" (https://leetcode.com/problems/subarray-sum-equals-k/)
-9. "347. Top K Frequent Elements" (https://leetcode.com/problems/top-k-frequent-elements/)
-10. "128. Longest Consecutive Sequence" (https://leetcode.com/problems/longest-consecutive-sequence/)
-11. "202. Happy Number" (https://leetcode.com/problems/happy-number/)
-12. "454. 4Sum II" (https://leetcode.com/problems/4sum-ii/)
+6. "49. Group Anagrams" (https://leetcode.com/problems/group-anagrams/)
+7. "560. Subarray Sum Equals K" (https://leetcode.com/problems/subarray-sum-equals-k/)
+8. "347. Top K Frequent Elements" (https://leetcode.com/problems/top-k-frequent-elements/)
+9. "128. Longest Consecutive Sequence" (https://leetcode.com/problems/longest-consecutive-sequence/)
+10. "205. Isomorphic Strings" (https://leetcode.com/problems/isomorphic-strings/)
 
----
+16. Final Revision
 
-13. Interview Thinking Checklist
+Before solving a HashMap problem, ask:
 
-Whenever you read a new problem, ask:
+1. What should the key represent?
+2. What should the value represent?
+3. Do I need a count, index, mapping, or list?
+4. Can I use previously stored information to avoid repeated searching?
+5. Can I solve the problem in one pass?
+6. What are the time and space complexities?
+7. Have I tested duplicates, missing keys, and empty inputs?
 
-1. What information do I need to remember?
-2. What should the key represent?
-3. What should the value represent?
-4. Can remembering previous information eliminate repeated searching?
-5. Do I need a frequency, index, mapping, list, or prefix sum?
-6. Can I solve it in one pass?
-7. What is the time and space complexity?
-8. What edge cases should I test, such as duplicates, empty inputs, negative values, and repeated prefix sums?
-
-Final Mental Model
-
-HashMap = Remember information so that future decisions become faster.
-
-- Need counts? Use frequency counting.
-- Need a matching number? Look up its complement.
-- Need to remember previous values? Use a map or set.
-- Need consistent relationships? Use mapping.
-- Need to group similar items? Use a shared key.
-- Need target-sum subarrays? Combine Prefix Sum with a HashMap.
-
-Do not memorize the code first. Identify the information you need to remember, decide what the key and value should mean, and then build the algorithm around that.
+Final mental model: HashMap helps you remember information so that you can retrieve it quickly when you need it later.
