@@ -57,7 +57,7 @@ You can check out my LeetCode profile here:
 
 ## ⭐ Repository
 
-[Leet-codeDAILY — GitHub Repository](https://github.com/MOHAMMEDYOUNUSUDDIN/Leet-code)
+[Leet-code — GitHub Repository](https://github.com/MOHAMMEDYOUNUSUDDIN/Leet-code)
 
 ## 🔥 Goal
 
