@@ -1,4 +1,4 @@
-# Search a 2D Matrix | Binary Search | Java
+# Search in 2D Matrix | Binary Search | Java
 
 ## Problem: Search a 2D Matrix
 
