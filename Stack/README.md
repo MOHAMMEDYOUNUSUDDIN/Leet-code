@@ -1,4 +1,4 @@
-📚 Stack — Pattern Recognition & Complete Guide
+📚 Stack — Pattern Recognition & Complete Guid
 
 🧠 What Is a Stack?
 
