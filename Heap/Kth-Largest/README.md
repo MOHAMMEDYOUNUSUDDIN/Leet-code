@@ -15,7 +15,7 @@
 
 Given an integer array `nums` and an integer `k`, return the `kth` largest element in the array.
 
-Important points:
+Important points:-
 - We need to find the Kth largest element.
 - The array may contain duplicate elements.
 - We need to find the Kth largest element in sorted order.
