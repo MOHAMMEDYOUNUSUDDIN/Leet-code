@@ -1,4 +1,4 @@
-# 🚀 LeetCode DSA — Daily Practice
+# 🚀 LeetCode DSA — Daily Practic
 
 Welcome to my **LeetCode DSA** repository! 👋
 
